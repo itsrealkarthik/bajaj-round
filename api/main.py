@@ -13,21 +13,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 class RequestModel(BaseModel):
-    data: List[str]
-
+    data: List[str]  # Changed to List[str] to handle the input
 
 def extract_numbers_and_alphabets(data: List[str]) -> dict:
     numbers = [int(i) for i in data if i.isnumeric()]
     alphabets = [ch for ch in data if ch.isalpha()]
     return {"numbers": numbers, "alphabets": alphabets}
 
-
 def get_highest_lowercase(alphabets: List[str]) -> List[str]:
     lowercase = [ch for ch in alphabets if ch.islower()]
     return [max(lowercase)] if lowercase else []
-
 
 @app.post("/bfhl/")
 async def process_bfhl(request: RequestModel):
@@ -53,11 +49,9 @@ async def process_bfhl(request: RequestModel):
             "roll_number": "21BCE5481"
         }
 
-
 @app.get("/bfhl/")
 async def get_bfhl_operation_code():
     return {"operation_code": 1}
-
 
 if __name__ == "__main__":
     import uvicorn
