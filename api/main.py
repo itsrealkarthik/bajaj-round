@@ -25,20 +25,35 @@ def get_highest_lowercase(alphabets: List[str]) -> List[str]:
     lowercase = [ch for ch in alphabets if ch.islower()]
     return [max(lowercase)] if lowercase else []
 
+def get_number_list(data):
+    l = []
+    for i in data:
+        if i.isnumeric():
+            l.append(i)
+    return l
+
+def get_alphabet_list(data):
+    l = []
+    for i in data:
+        if i.isnumeric():
+            l.append(i)
+    return l
+
 
 @app.post("/bfhl/")
 async def process_bfhl(data: RequestModel):
     try:
-        user_id = f"{data.full_name.lower().replace(' ', '_')}_{data.dob.replace('-', '')}"
         highest_lowercase = get_highest_lowercase(data.alphabets)
+        get_number = get_number_list(data);
+        get_alphabet=get_alphabet_list(data);
         
         return {
-            "user_id": user_id,
+            "user_id": "Karthik_r_06042003",
             "is_success": True,
-            "numbers": data.numbers,
-            "alphabets": data.alphabets,
+            "numbers": get_number,
+            "alphabets": get_alphabet,
             "highest_lowercase_alphabet": highest_lowercase,
-            "email": "john@xyz.com",
+            "email": "karthik.r2021b@vitstudent.ac.in",
             "roll_number": "21BCE5481"
         }
     except Exception as e:
@@ -46,7 +61,7 @@ async def process_bfhl(data: RequestModel):
             "user_id": None,
             "is_success": False,
             "message": str(e),
-            "email": "john@xyz.com",
+            "email": "karthik.r2021b@vitstudent.ac.in",
             "roll_number": "21BCE5481"
         }
 
