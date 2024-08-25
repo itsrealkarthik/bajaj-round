@@ -29,8 +29,7 @@ def get_highest_lowercase(alphabets: List[str]) -> List[str]:
 @app.post("/bfhl/")
 async def process_bfhl(data: RequestModel):
     try:
-        
-        user_id = f"{data.full_name.lower().replace(' ', '_')}_{data.dob}"
+        user_id = f"{data.full_name.lower().replace(' ', '_')}_{data.dob.replace('-', '')}"
         highest_lowercase = get_highest_lowercase(data.alphabets)
         
         return {
@@ -38,13 +37,17 @@ async def process_bfhl(data: RequestModel):
             "is_success": True,
             "numbers": data.numbers,
             "alphabets": data.alphabets,
-            "highest_lowercase": highest_lowercase
+            "highest_lowercase_alphabet": highest_lowercase,
+            "email": "john@xyz.com",
+            "roll_number": "21BCE5481"
         }
     except Exception as e:
         return {
             "user_id": None,
             "is_success": False,
-            "message": str(e)
+            "message": str(e),
+            "email": "john@xyz.com",
+            "roll_number": "21BCE5481"
         }
 
 
