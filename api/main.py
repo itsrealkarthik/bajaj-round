@@ -16,42 +16,33 @@ app.add_middleware(
 
 class RequestModel(BaseModel):
     full_name: str
-    dob: str 
+    dob: str
     numbers: List[int]
     alphabets: List[str]
+
+
+def extract_numbers_and_alphabets(data: List[str]) -> dict:
+    numbers = [int(i) for i in data if i.isnumeric()]
+    alphabets = [ch for ch in data if ch.isalpha()]
+    return {"numbers": numbers, "alphabets": alphabets}
 
 
 def get_highest_lowercase(alphabets: List[str]) -> List[str]:
     lowercase = [ch for ch in alphabets if ch.islower()]
     return [max(lowercase)] if lowercase else []
 
-def get_number_list(data):
-    l = []
-    for i in data:
-        if i.isnumeric():
-            l.append(i)
-    return l
-
-def get_alphabet_list(data):
-    l = []
-    for i in data:
-        if i.isnumeric():
-            l.append(i)
-    return l
-
 
 @app.post("/bfhl/")
 async def process_bfhl(data: RequestModel):
     try:
-        highest_lowercase = get_highest_lowercase(data.alphabets)
-        get_number = get_number_list(data);
-        get_alphabet=get_alphabet_list(data);
-        
+        extracted_data = extract_numbers_and_alphabets(data.alphabets)
+        highest_lowercase = get_highest_lowercase(extracted_data["alphabets"])
+
         return {
             "user_id": "Karthik_r_06042003",
             "is_success": True,
-            "numbers": get_number,
-            "alphabets": get_alphabet,
+            "numbers": extracted_data["numbers"],
+            "alphabets": extracted_data["alphabets"],
             "highest_lowercase_alphabet": highest_lowercase,
             "email": "karthik.r2021b@vitstudent.ac.in",
             "roll_number": "21BCE5481"
