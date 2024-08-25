@@ -15,10 +15,7 @@ app.add_middleware(
 
 
 class RequestModel(BaseModel):
-    full_name: str
-    dob: str
-    numbers: List[int]
-    alphabets: List[str]
+    data: List[str]
 
 
 def extract_numbers_and_alphabets(data: List[str]) -> dict:
@@ -33,9 +30,9 @@ def get_highest_lowercase(alphabets: List[str]) -> List[str]:
 
 
 @app.post("/bfhl/")
-async def process_bfhl(data: RequestModel):
+async def process_bfhl(request: RequestModel):
     try:
-        extracted_data = extract_numbers_and_alphabets(data.alphabets)
+        extracted_data = extract_numbers_and_alphabets(request.data)
         highest_lowercase = get_highest_lowercase(extracted_data["alphabets"])
 
         return {
